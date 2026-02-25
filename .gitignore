@@ -1,0 +1,31 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+
+# User/state files
+.vs/
+.vscode/
+*.user
+*.suo
+
+# App runtime data
+App_Data/
+Output/
+
+# Model binaries (do not ship weights)
+Models/*.onnx
+
+# Ignore old scaffold artifacts
+ImageAiEnhancerApp/
+ImageAiEnhancerApp.slnx
+
+# Logs and diagnostics
+*.log
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# OS files
+.DS_Store
+Thumbs.db

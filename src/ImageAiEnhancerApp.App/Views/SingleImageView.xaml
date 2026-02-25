@@ -1,0 +1,176 @@
+<UserControl x:Class="ImageAiEnhancerApp.App.Views.SingleImageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="720"
+             d:DesignWidth="1200">
+    <Grid Margin="12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0"
+                Margin="0,0,10,0"
+                Padding="10"
+                BorderBrush="#FFBFC4CF"
+                BorderThickness="1"
+                CornerRadius="8"
+                Background="#FFF8FAFC"
+                AllowDrop="True"
+                Drop="PreviewBorder_OnDrop"
+                DragOver="PreviewBorder_OnDragOver">
+            <Grid>
+                <TextBlock Text="Drop an image here or click Browse"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Foreground="#FF6B7280"
+                           Visibility="{Binding BeforeImage, Converter={StaticResource NullToVisibilityConverter}}" />
+
+                <Grid x:Name="CompareGrid"
+                      Visibility="{Binding BeforeImage, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Invert}">
+                    <Image Source="{Binding BeforeImage}"
+                           Stretch="Uniform" />
+
+                    <Image Source="{Binding AfterImage}"
+                           Stretch="Uniform"
+                           Visibility="{Binding AfterImage, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Invert}">
+                        <Image.Clip>
+                            <MultiBinding Converter="{StaticResource CompareClipGeometryConverter}">
+                                <Binding ElementName="CompareGrid" Path="ActualWidth" />
+                                <Binding ElementName="CompareGrid" Path="ActualHeight" />
+                                <Binding Path="ComparePosition" />
+                            </MultiBinding>
+                        </Image.Clip>
+                    </Image>
+
+                    <Border Width="2"
+                            HorizontalAlignment="Left"
+                            Background="#FF2F80ED"
+                            Visibility="{Binding AfterImage, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Invert}">
+                        <Border.Margin>
+                            <MultiBinding Converter="{StaticResource CompareLineMarginConverter}">
+                                <Binding ElementName="CompareGrid" Path="ActualWidth" />
+                                <Binding Path="ComparePosition" />
+                            </MultiBinding>
+                        </Border.Margin>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock Text="Single Image"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Margin="0,0,0,10" />
+
+                <TextBlock Text="Input image" FontWeight="SemiBold" />
+                <DockPanel Margin="0,4,0,8">
+                    <Button Content="Browse"
+                            Width="80"
+                            DockPanel.Dock="Right"
+                            Margin="8,0,0,0"
+                            Command="{Binding BrowseInputImageCommand}" />
+                    <TextBox Text="{Binding InputPath, UpdateSourceTrigger=PropertyChanged}"
+                             IsReadOnly="True" />
+                </DockPanel>
+
+                <TextBlock Text="Output folder" FontWeight="SemiBold" />
+                <DockPanel Margin="0,4,0,8">
+                    <Button Content="Browse"
+                            Width="80"
+                            DockPanel.Dock="Right"
+                            Margin="8,0,0,0"
+                            Command="{Binding BrowseOutputFolderCommand}" />
+                    <TextBox Text="{Binding OutputFolder, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+
+                <TextBlock Text="Mode" FontWeight="SemiBold" />
+                <ComboBox Margin="0,4,0,8"
+                          ItemsSource="{Binding ModeOptions}"
+                          SelectedItem="{Binding SelectedMode}" />
+
+                <TextBlock Text="AI Model" FontWeight="SemiBold" />
+                <ComboBox Margin="0,4,0,4"
+                          ItemsSource="{Binding AvailableModels}"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Name"
+                          SelectedValue="{Binding SelectedModelName}" />
+
+                <TextBlock Text="{Binding ModelStatusMessage}"
+                           TextWrapping="Wrap"
+                           Foreground="#FF4B5563"
+                           Margin="0,0,0,8" />
+
+                <TextBlock Text="Scale" FontWeight="SemiBold" />
+                <ComboBox Margin="0,4,0,8"
+                          ItemsSource="{Binding ScaleOptions}"
+                          SelectedItem="{Binding SelectedScale}" />
+
+                <CheckBox Content="Denoise"
+                          Margin="0,2,0,2"
+                          IsChecked="{Binding Denoise}" />
+                <CheckBox Content="Sharpen"
+                          Margin="0,2,0,8"
+                          IsChecked="{Binding Sharpen}" />
+
+                <TextBlock Text="Output format" FontWeight="SemiBold" />
+                <ComboBox Margin="0,4,0,8"
+                          ItemsSource="{Binding OutputFormatOptions}"
+                          SelectedItem="{Binding SelectedOutputFormat}" />
+
+                <TextBlock Text="JPEG quality" FontWeight="SemiBold" />
+                <Slider Minimum="1"
+                        Maximum="100"
+                        TickFrequency="1"
+                        IsSnapToTickEnabled="True"
+                        Value="{Binding JpegQuality}"
+                        Margin="0,4,0,0" />
+                <TextBlock Text="{Binding JpegQuality, StringFormat=Quality: {0}}"
+                           Margin="0,2,0,8" />
+
+                <TextBlock Text="Output suffix" FontWeight="SemiBold" />
+                <TextBox Margin="0,4,0,8"
+                         Text="{Binding OutputSuffix, UpdateSourceTrigger=PropertyChanged}" />
+
+                <CheckBox Content="Use GPU if DirectML is available"
+                          Margin="0,2,0,8"
+                          IsChecked="{Binding UseGpuIfAvailable}" />
+
+                <TextBlock Text="Compare slider" FontWeight="SemiBold" />
+                <Slider Minimum="0"
+                        Maximum="1"
+                        Value="{Binding ComparePosition}"
+                        Margin="0,4,0,8"
+                        IsEnabled="{Binding HasAfterImage}" />
+
+                <ProgressBar Height="14"
+                             Maximum="100"
+                             Value="{Binding Progress, Converter={StaticResource ProgressToPercentageConverter}}" />
+
+                <TextBlock Text="{Binding StatusMessage}"
+                           TextWrapping="Wrap"
+                           Margin="0,8,0,10"
+                           Foreground="#FF1F2937" />
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Enhance"
+                            Width="110"
+                            Height="32"
+                            Margin="0,0,8,0"
+                            Command="{Binding EnhanceCommand}" />
+                    <Button Content="Cancel"
+                            Width="110"
+                            Height="32"
+                            Command="{Binding CancelCommand}" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,0 +1,8 @@
+[
+  {
+    "Name": "SuperResolution10",
+    "Path": "Models/super-resolution-10.onnx",
+    "Scale": 3,
+    "Notes": "YCbCr luma-only; expects Y input; output is Y upscaled."
+  }
+]
