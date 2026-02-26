@@ -22,6 +22,10 @@ ImageAiEnhancerApp.slnx
 # Logs and diagnostics
 *.log
 
+# Release build outputs (track release notes .md only)
+artifacts/publish/
+artifacts/*.zip
+
 # NuGet
 *.nupkg
 *.snupkg

@@ -3,6 +3,7 @@
 [![.NET](https://img.shields.io/badge/.NET-8.0-blue)](https://dotnet.microsoft.com/)
 [![WPF](https://img.shields.io/badge/UI-WPF-512BD4)](https://learn.microsoft.com/dotnet/desktop/wpf/)
 [![ONNX Runtime](https://img.shields.io/badge/ONNX-Runtime-0E77B7)](https://onnxruntime.ai/)
+[![Version](https://img.shields.io/badge/version-1.0.1-success)](./CHANGELOG.md)
 [![License](https://img.shields.io/badge/License-BLS%201.1-blue.svg)](./LICENSE.md)
 
 A local-first, fully offline Windows desktop app for image enhancement.
@@ -108,6 +109,23 @@ Each batch run writes a log file:
 
 ```powershell
 dotnet publish src/ImageAiEnhancerApp.App/ImageAiEnhancerApp.App.csproj -c Release -r win-x64 --self-contained false -o artifacts/publish/win-x64
+$version = "1.0.1"
+Compress-Archive -Path artifacts/publish/win-x64/* -DestinationPath "artifacts/ImageAiEnhancerApp-win-x64-v$version.zip" -Force
+```
+
+## Release versioning
+
+- Current public release: `v1.0.1`
+- Previous public release: `v1.0.0`
+- Full history: [CHANGELOG.md](./CHANGELOG.md)
+- Release notes: [v1.0.0](./artifacts/release-notes-v1.0.0.md)
+- Release notes: [v1.0.1](./artifacts/release-notes-v1.0.1.md)
+
+For GitHub releases, create and push a tag per version:
+
+```powershell
+git tag -a v1.0.1 -m "Release v1.0.1"
+git push origin v1.0.1
 ```
 
 ## Roadmap
