@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.0.2] - 2026-03-10
+
+### Added
+- Tracked local publish script at `scripts/publish-local.ps1` for generating the Windows desktop package and `.zip` release asset.
+- Published app now includes `Models/models.json` by default.
+- Public release notes document for `v1.0.2` at `artifacts/release-notes-v1.0.2.md`.
+
+### Changed
+- Version metadata updated to `1.0.2`.
+- Windows publish output now produces `ImageAiEnhancerApp.exe` instead of `ImageAiEnhancerApp.App.exe`.
+- README updated with verified local publish instructions and output paths.
+
 ## [1.0.1] - 2026-02-26
 
 ### Added

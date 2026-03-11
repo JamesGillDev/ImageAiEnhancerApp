@@ -6,6 +6,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="..\..\Models\models.json" Link="Models\models.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.24.2" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime.DirectML" Version="1.24.2" />
@@ -14,6 +21,8 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <AssemblyName>ImageAiEnhancerApp</AssemblyName>
+    <Product>ImageAiEnhancerApp</Product>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
